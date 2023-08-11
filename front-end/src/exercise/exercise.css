@@ -1,0 +1,17 @@
+.exercise {
+  width: 400px;
+  padding: 30px 20px;
+  background-color: #87d37c;
+  border-radius: 5px;
+  margin-left: 20px;
+}
+
+.input-filds {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.small-text {
+  padding: 20px;
+}
