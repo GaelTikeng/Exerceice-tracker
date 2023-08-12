@@ -6,10 +6,11 @@ import './displayExercise.css';
 
 export default function DisplayExercise () {
 
+  const addExercise = JSON.parse(localStorage.getItem("addExercise"))
 
   return (
-    <div>
-      New exercise
+    <div className="result">
+      {JSON.stringify(addExercise)}
     </div>
   )
 }

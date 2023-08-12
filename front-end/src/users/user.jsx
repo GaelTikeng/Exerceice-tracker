@@ -1,23 +1,29 @@
 import React from "react";
 import axios from "axios";
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./user.css";
 
 export default function User() {
   const [users, setUsers] = useState({
     username: "",
   });
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleClick = (event) => {
     event.preventDefault();
+    let rawData = null
     axios
       .post("http://localhost:3000/api/users", { users })
-      .then((response) => console.log("Here is the response", response))
+      .then((response) => {
+        rawData = response.data
+        localStorage.setItem("exerciseUser", JSON.stringify(rawData))
+        navigate('./api/users');
+      })
       .catch((error) => console.log("An error occured", error));
 
-    // navigate('./api/users');
+    
+    
   };
 
   return (

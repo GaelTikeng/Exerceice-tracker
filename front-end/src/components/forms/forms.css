@@ -1,0 +1,13 @@
+.two-blocks {
+  display: flex;
+  align-items: last baseline;
+}
+
+.small-text {
+  display: flex;
+
+}
+
+span {
+  margin-left: 20px;
+}

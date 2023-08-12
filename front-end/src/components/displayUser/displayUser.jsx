@@ -3,11 +3,11 @@ import './displayUser.css'
 
 
 export default function DisplayUser () {
-
+  const rawData = JSON.parse(localStorage.getItem('exerciseUser'))
 
   return (
     <div>
-      New user
+      {JSON.stringify(rawData)}
     </div>
   )
 }

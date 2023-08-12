@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import "./exercise.css";
@@ -9,23 +10,29 @@ export default function Exercise() {
   const [description, setDescription] = useState();
   const [duration, setDuration] = useState();
   const [date, setDate] = useState();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // let { _id } = useParams();
  
   const handleClick = (event) => {
     event.preventDefault();
+    let rawData = null;
 
     axios
-      .post("http://localhost:3000/api/users/:_id/exercises", {
+      .post(`http://localhost:3000/api/users/${userId}/exercises`, {
         userId,
         description,
         duration,
         date,
       })
-      .then((response) => console.log("Here is the response", response))
+      .then((response) => {
+        rawData = response.data
+        console.log("rawData", rawData)
+        localStorage.setItem("addExercise", JSON.stringify(rawData))
+        console.log("Here is the response", response.data)
+      })
       .catch((error) => console.log("An error occured", error));
 
-    // navigate(`./api/users/:${_id}/exercises`);
+    navigate(`./api/users/${userId}/exercises`);
   };
 
   return (
