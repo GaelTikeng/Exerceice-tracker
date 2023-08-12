@@ -1,12 +1,16 @@
-const mongoose = require('../db');
+const mongoose = require("../db");
 
 const Schema = mongoose.Schema;
-const exerciseSchema = new Schema({
-  _id: String,
-  description: { type: String, require: true },
-  duration: { type: Number, require: true },
-  date: String,
-});
+const exerciseSchema = new Schema(
+  {
+    userId: String,
+    username: String,
+    description: { type: String, require: true },
+    duration: { type: Number, require: true },
+    date: String,
+  },
+  { versionKey: false }
+);
 
 const Exercise = mongoose.model("exercise", exerciseSchema);
 

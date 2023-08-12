@@ -1,35 +1,86 @@
 var express = require("express");
 var router = express.Router();
 const Exercise = require("../models/exercise");
+const UserName = require("../models/user");
 
-// bandler function
-const respHandler = (res, exercise) => {
-  console.log("Action done successfully");
-  console.log(exercise);
-  res.json({ exercise: "OK", exercise });
-};
-
-const errorHandler = (res, err) => {
-  let errMsg = "An error occured" + err;
-  console.log(errMsg);
-  return res.json({ status: errMsg }).status(500);
-};
 
 // create exercice
-router.post('/api/users/:_id/exercises', function (req, res) {
-
+router.post("/api/users/:_id/exercises", async (req, res) => {
   let { description, duration, date } = req.body;
-  const userId = req.body["_id"]
-  if (!date) {
-    date = new Date()
-  }
+  try {
+    const userId = req.body["userId"];
+    const foundUser = await UserName.findById(userId);
+    console.log("yes this is the user",foundUser);
+    if (!foundUser) {
+      res.json("No user with that id");
+    }
   
-  res.send({
-    _id: userId,
-    description,
-    duration,
-    date: date
-  })
+    if (!date) {
+      date = new Date();
+    }
+  
+    await Exercise.create({
+      userId: userId,
+      username: foundUser.username,
+      description,
+      duration,
+      date,
+    });
+  
+    // if (createdExercise) {
+    //   // console.log("exercise created successfully")
+    //   res.send("created successfully");
+    // } else {
+    //   // console.log("not created")
+    //   res.send("not created");
+    // }
+  
+    res.send({
+      _id: userId,
+      Username: foundUser.username,
+      description,
+      duration,
+      date: date,
+    });
+
+  }
+  catch(error) {
+    res.send("Error occured", error)
+  }
+ 
+});
+
+// get request to retrieve a user with the exercises
+router.get("/api/users/:_id/logs", async (req, res) => {
+  const userId = req.params._id;
+  try {
+    const foundUser = await UserName.findById(userId);
+
+    if (!foundUser) {
+      res.json("No user with that id");
+    }
+
+    let exercises = await Exercise.find({ userId });
+    console.log(exercises)
+    exercises = exercises.map((action) => {
+      return {
+        description: action.description,
+        duration: action.duration,
+        date: action.date
+      }
+    })
+    console.log("this is the user", exercises);
+    res.json({
+      username: foundUser.username,
+      count: exercises.length,
+      _id: userId,
+      log: exercises,
+    })
+  }
+  catch(error) {
+    console.log("An error occured, can't get", error)
+    res.json(error)
+  }
 });
 
 module.exports = router;
