@@ -54,8 +54,8 @@ export default function Exercise() {
           value={description}
           type="text"
           placeholder="description*"
-          onChange={(desc) => {
-            setDescription(desc.target.value);
+          onChange={(e) => {
+            setDescription(e.target.value);
           }}
         />
         <input
