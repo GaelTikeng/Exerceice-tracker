@@ -27,14 +27,6 @@ router.post("/api/users/:_id/exercises", async (req, res) => {
       date,
     });
   
-    // if (createdExercise) {
-    //   // console.log("exercise created successfully")
-    //   res.send("created successfully");
-    // } else {
-    //   // console.log("not created")
-    //   res.send("not created");
-    // }
-  
     res.send({
       _id: userId,
       Username: foundUser.username,
